@@ -55,8 +55,6 @@ function profile_redirect() {
 	}
 
 }
-
-
 add_action( 'init', 'profile_redirect' );
 
 
