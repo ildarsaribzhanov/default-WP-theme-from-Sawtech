@@ -5,10 +5,13 @@
 	* Правила создания ЧПУ если чего-то там не заработало
 	* Дополнительная колонка для пользовательских записей
 	* Сделать новую колонку сортируемой
+	* Сортировка custom post по метаполю meta_field
+	* Сортировка по терминам таксономии (таксономия name_new_tax)
+	* Фильтр по терминам таксономии
 	* Частичный вывод постов
+	* Изменить количество слов в стандартной цитате поста
+	* Удаление конструкции [...] после конце excerpt
 	* Получить массив категорий записи
-	* Увеличить счетчик просмотров
-	* Получить количество просмотров
 */
 /****************************************************************************/
 
@@ -110,18 +113,20 @@ function new_columns_partners( $standart ) {
 		'cb'     => '<input type="checkbox">',
 		'title'  => 'Заголовок',
 		'razdel' => 'Тип',
+		'meta_field' => 'Метаполе',
 		'date'   => 'Дата'
 	);
 
 	return $standart;
 }
 
+// Добавление контента для новых полей
 function add_content_new_col( $column, $post_id ) {
 
 	switch ( $column ) {
 
 		case 'razdel' :
-			$this_terms = get_the_terms( $post_id, "name_new_tax" );
+			$this_terms = get_the_terms( $post_id, 'name_new_tax' );
 
 			$res = '';
 			if ( $this_terms ) {
@@ -137,6 +142,16 @@ function add_content_new_col( $column, $post_id ) {
 			echo $res;
 			
 			break;
+
+		case 'meta_field' :
+			$this_meta = get_post_meta( $post_id, 'meta_field', 1 );
+
+			if ( ! $this_meta ) {
+				$this_meta = 'Не задано';
+			} 
+			echo $this_meta;
+			
+			break;
 	}
 }
 
@@ -147,6 +162,7 @@ function add_content_new_col( $column, $post_id ) {
 add_filter( 'manage_edit-[new_post_type]_sortable_columns', 'add_views_sortable_column' );
 function add_views_sortable_column( $sortable_columns ) {
 	$sortable_columns['razdel'] = 'razdel';
+	$sortable_columns['meta_field'] = 'meta_field';
 
 	return $sortable_columns;
 }
@@ -154,12 +170,12 @@ function add_views_sortable_column( $sortable_columns ) {
 
 
 /****************************************************************************/
-/********************** Сортировка по метаполю views_views ******************/
+/***************** Сортировка custom post по метаполю meta_field ***********/
 /****************************************************************************/
 add_filter( 'request', 'add_column_views_request' );
 function add_column_views_request( $vars ) {
-	if ( isset( $vars['orderby'] ) && $vars['orderby'] == 'views_views' ) {
-		$vars['meta_key'] = 'razdel';
+	if ( isset( $vars['orderby'] ) && $vars['orderby'] == 'meta_field' ) {
+		$vars['meta_key'] = 'meta_field';
 		$vars['orderby']  = 'meta_value_num';
 	}
 
@@ -168,7 +184,7 @@ function add_column_views_request( $vars ) {
 
 
 /****************************************************************************/
-/******** Сортировка по терминам таксономии (таксономия nomination) *********/
+/******** Сортировка по терминам таксономии (таксономия name_new_tax) *********/
 /****************************************************************************/
 function orderby_newtax( $vars, $wp_query ) {
 
@@ -230,10 +246,10 @@ function perform_filtering( $query ) {
 }
 
 /****************************************************************************/
-/***************************** Урезание текста ******************************/
+/************************ Частичный вывод постов ****************************/
 /****************************************************************************/
 
-// урезание поста $ID до размера $limit слов
+// урезание поста $ID до размера $limit слов, если не задана цитата
 function get_excerpt_post( $ID, $limit ) {
 	$this_post = get_post( $ID );
 	if ( $this_post->post_excerpt != '' ) {
@@ -262,19 +278,24 @@ function get_excerpt_text( $txt, $limit = 20 ) {
 
 
 
-// урезание the_excerpt до $limit слов
-function mdd_excerpt( $limit ) {
-	$txt = explode( ' ', get_the_excerpt(), $limit );
-
-	if ( count( $txt ) >= $limit ) {
-		array_pop( $txt );
-		$txt = implode( " ", $txt ) . '...';
-	} else {
-		$txt = implode( " ", $txt );
-	}
-	$txt = strip_tags( $txt );
-	echo $txt;
+/****************************************************************************/
+/************* Изменить количество слов в стандартной цитате поста **********/
+/****************************************************************************/
+function new_excerpt_length( $length ) {
+	return 20;
 }
+
+add_filter( 'excerpt_length', 'new_excerpt_length' );
+
+
+/****************************************************************************/
+/*************** Удаление конструкции [...] после конце excerpt *************/
+/****************************************************************************/
+function new_excerpt_more( $more ) {
+	return '...';
+}
+
+add_filter( 'excerpt_more', 'new_excerpt_more' );
 
 
 
@@ -291,48 +312,6 @@ function get_post_cat_array( $ID = 0 ) {
 	};
 
 	return $res;
-}
-
-
-
-
-/****************************************************************************/
-/************************* Увеличить счетчик просмотров *********************/
-/****************************************************************************/
-function count_view_update( $id = false ) {
-	if ( is_single() ) {
-		if ( ! $id ) {
-			global $post;
-			$id = $post->ID;
-		};
-
-		$count_view = get_post_meta( $id, 'count_view', 1 );
-		if ( $count_view ) {
-			$count_view++;
-		} else {
-			$count_view = 1;
-		};
-		update_post_meta( $id, 'count_view', $count_view );
-	};
-
-	return;
-}
-
-
-add_action( 'wp_head', 'count_view_update' );
-
-
-/****************************************************************************/
-/*********************** Получить количество просмотров *********************/
-/****************************************************************************/
-function get_count_view( $id = false ) {
-	if ( $id === false ) {
-		global $post;
-		$id = $post->ID;
-	};
-	$count_view = get_post_meta( $id, 'count_view', 1 );
-
-	return (int) $count_view;
 }
 
 ?>
