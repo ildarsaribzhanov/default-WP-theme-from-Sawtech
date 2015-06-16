@@ -6,8 +6,6 @@
 	* Убрать верхнюю панель у пользователей
 	* Установка ширины контент
 	* Получение id видео из ссылки youtube
-	* Изменить количество слов в урезание текста
-	*Удаление конструкции [...] на конце excerpt 
 	* Страница настройки темы
 */
 /****************************************************************************/
@@ -15,7 +13,7 @@
 // поддержка миниатюр
 if ( function_exists( 'add_theme_support' ) ) {
 	add_theme_support( 'post-thumbnails' );
-};
+}
 
 // блоки виждетов
 if ( function_exists( 'register_sidebar' ) ) {
@@ -25,7 +23,7 @@ if ( function_exists( 'register_sidebar' ) ) {
 	register_sidebar( array(
 		'name' => 'tweet'
 	) );
-};
+}
 
 // добавление поддержки меню
 add_theme_support( 'menus' );
@@ -41,7 +39,6 @@ function my_upload_mimes( $mimes ) {
 
 	return $mimes;
 }
-
 
 
 /****************************************************************************/
@@ -62,8 +59,6 @@ function yuotube_revers( $url_video ) {
 
 	return $Youtube_video;
 }
-
-
 
 
 /****************************************************************************/

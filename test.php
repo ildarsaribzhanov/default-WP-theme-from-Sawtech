@@ -1,34 +1,34 @@
-<?php 
-	/* Themplate name: Название шаблона */
-	require('./wp-blog-header.php');
-	require_once('header.php');
+<?php
+/* Themplate name: Название шаблона */
+require( './wp-blog-header.php' );
+require_once( 'header.php' );
 ?>
 
 </head>
 
 <body>
 
-<?php require('header_page.php'); ?>
+<?php require( 'header_page.php' ); ?>
 
 <!--main begin-->
 <div class="b_maincontent">
 	
-	<?php require('sidebar.php'); ?>
+	<?php require( 'sidebar.php' ); ?>
 
 	<div class="b_left_sidebar">
-		<?php query_posts(array('cat'=>3, 'posts_per_page'=>1000)); ?>
-			<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
-		 
-				<p><?php the_title(); ?></p>
-				<div><?php the_content(); ?></div>
-		 
-			<?php endwhile; ?>
-			<?php else : ?>
-				<div>
-					<h3>Не найдено</h3>
-					К сожалению, по вашему запросу ничего не найдено.
-				</div>
-			<?php endif; ?>
+		<?php query_posts( array( 'cat' => 3, 'posts_per_page' => 1000 ) ); ?>
+		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+
+			<p><?php the_title(); ?></p>
+			<div><?php the_content(); ?></div>
+
+		<?php endwhile; ?>
+		<?php else : ?>
+			<div>
+				<h3>Не найдено</h3>
+				К сожалению, по вашему запросу ничего не найдено.
+			</div>
+		<?php endif; ?>
 		<?php wp_reset_query(); ?>
 
 	</div>
@@ -40,6 +40,6 @@
 </div>
 <!--band end-->
 </div>
-<?php wp_footer(); ?>
+<?php require( 'footer.php' ); ?>
 </body>
 </html>
