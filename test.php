@@ -1,45 +1,45 @@
-<?php
-/* Themplate name: Название шаблона */
-require( './wp-blog-header.php' );
-require_once( 'header.php' );
+<?php /* Themplate name: Название шаблона */
+require('./wp-blog-header.php');
+require_once('header.php');
 ?>
 
-</head>
+<div class="b_wraper">
 
-<body>
+	<div class="b_band">
 
-<?php require( 'header_page.php' ); ?>
+		<?php require('header_page.php'); ?>
 
-<!--main begin-->
-<div class="b_maincontent">
-	
-	<?php require( 'sidebar.php' ); ?>
+		<!--main begin-->
+		<div class="b_maincontent">
 
-	<div class="b_left_sidebar">
-		<?php query_posts( array( 'cat' => 3, 'posts_per_page' => 1000 ) ); ?>
-		<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+			<?php require('sidebar.php'); ?>
 
-			<p><?php the_title(); ?></p>
-			<div><?php the_content(); ?></div>
+			<div class="b_left_sidebar">
 
-		<?php endwhile; ?>
-		<?php else : ?>
-			<div>
-				<h3>Не найдено</h3>
-				К сожалению, по вашему запросу ничего не найдено.
+				<?php query_posts(array('cat' => 3, 'posts_per_page' => 1000)); ?>
+				<?php if (have_posts()) : while (have_posts()) : the_post(); ?>
+
+					<p><?php the_title(); ?></p>
+					<div><?php the_content(); ?></div>
+
+				<?php endwhile; else : ?>
+					<div>
+						<h3>Не найдено</h3>
+						К сожалению, по вашему запросу ничего не найдено.
+					</div>
+				<?php endif; ?>
+				<?php wp_reset_query(); ?>
+
 			</div>
-		<?php endif; ?>
-		<?php wp_reset_query(); ?>
+
+		</div>
+		<!--main end-->
+
 
 	</div>
+	<!--band end-->
 
+	<div class="b_clear"></div>
 </div>
-<!--main end-->
 
-
-</div>
-<!--band end-->
-</div>
-<?php require( 'footer.php' ); ?>
-</body>
-</html>
+<?php require('footer.php'); ?>
