@@ -49,47 +49,48 @@
 	wp_corenavi($wp_query->found_posts);
 
 */
-function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count = 1 ) {
-	if ( isset( $_SERVER['REDIRECT_URL'] ) ) {
+function wp_corenavi($count_posts = 1, $first_page_count = 1, $all_pages_count = 1)
+{
+	if (isset($_SERVER['REDIRECT_URL'])) {
 		$redirect_url = $_SERVER['REDIRECT_URL'];
 	} else {
 		$redirect_url = '';
 	};
-	$current_url = get_bloginfo( 'url' ) . $redirect_url;
+	$current_url = get_bloginfo('url') . $redirect_url;
 
 	// если параметры не заданы явно, то возьмем их из базы
-	if ( $first_page_count == 0 ) {
-		$first_page_count = get_option( 'posts_per_page' );
+	if ($first_page_count == 0) {
+		$first_page_count = get_option('posts_per_page');
 	};
 
-	if ( $all_pages_count == 0 ) {
-		$all_pages_count = get_option( 'posts_per_page' );
+	if ($all_pages_count == 0) {
+		$all_pages_count = get_option('posts_per_page');
 	};
 
 	$current = 1;
-	if ( isset( $_GET['page'] ) ) {
-		$current = (int) $_GET['page'];
+	if (isset($_GET['page'])) {
+		$current = (int)$_GET['page'];
 	};
 
-	if ( isset( $_GET['s'] ) ) {
+	if (isset($_GET['s'])) {
 		$search = '?s=' . $_GET['s'] . '&';
 	} else {
 		$search = '?';
 	};
 
-	if ( $current < 1 ) {
+	if ($current < 1) {
 		$current = 1;
 	}
 	$pagination = '<div class="pagination_main">';
 	
 	$count_pages = 1;
 	
-	if ( $count_posts > $first_page_count ) {
+	if ($count_posts > $first_page_count) {
 		$count_posts = $count_posts - $first_page_count;
-		$count_pages = ceil( $count_posts / $all_pages_count ) + 1;
+		$count_pages = ceil($count_posts / $all_pages_count) + 1;
 	};
 
-	if ( $count_pages == 1 ) {
+	if ($count_pages == 1) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В начало</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Предыдущая</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">1</span>';
@@ -102,26 +103,26 @@ function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count 
 	};
 
 	// обработка начальный ссылок
-	if ( $current == 1 ) {
+	if ($current == 1) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В начало</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Предыдущая</span>';
 	} else {
 		$pagination .= '<a href="' . $current_url . $search . 'page=1" class="pagination_itm pagination_itm_link">В начало</a>';
-		$pagination .= '<a href="' . $current_url . $search . 'page=' . ( $current - 1 ) . '" class="pagination_itm pagination_itm_link">Предыдущая</a>';
+		$pagination .= '<a href="' . $current_url . $search . 'page=' . ($current - 1) . '" class="pagination_itm pagination_itm_link">Предыдущая</a>';
 	};
 
-	if ( $count_pages <= 7 ) {
-		for ( $i = 1; $i <= $count_pages; $i++ ) {
-			if ( $current == $i ) {
+	if ($count_pages <= 7) {
+		for ($i = 1; $i <= $count_pages; $i++) {
+			if ($current == $i) {
 				$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 			} else {
 				$pagination .= '<a href="' . $current_url . $search . 'page=' . $i . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
 			};
 		};
 	} else {
-		if ( $current <= 4 ) {
-			for ( $i = 1; $i <= 6; $i++ ) {
-				if ( $current == $i ) {
+		if ($current <= 4) {
+			for ($i = 1; $i <= 6; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
 					$pagination .= '<a href="' . $current_url . $search . 'page=' . $i . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
@@ -130,11 +131,11 @@ function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count 
 
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-		} elseif ( $current >= $count_pages - 3 ) {
+		} elseif ($current >= $count_pages - 3) {
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-			for ( $i = $count_pages - 6; $i <= $count_pages; $i++ ) {
-				if ( $current == $i ) {
+			for ($i = $count_pages - 6; $i <= $count_pages; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
 					$pagination .= '<a href="' . $current_url . $search . 'page=' . $i . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
@@ -144,8 +145,8 @@ function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count 
 		} else {
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-			for ( $i = $current - 2; $i <= $current + 2; $i++ ) {
-				if ( $current == $i ) {
+			for ($i = $current - 2; $i <= $current + 2; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
 					$pagination .= '<a href="' . $current_url . $search . 'page=' . $i . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
@@ -158,11 +159,11 @@ function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count 
 	
 
 	// обработка конечных ссылок
-	if ( $current == $count_pages ) {
+	if ($current == $count_pages) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Следующая</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В конец</span>';
 	} else {
-		$pagination .= '<a href="' . $current_url . $search . 'page=' . ( $current + 1 ) . '" class="pagination_itm pagination_itm_link">Следующая</a>';
+		$pagination .= '<a href="' . $current_url . $search . 'page=' . ($current + 1) . '" class="pagination_itm pagination_itm_link">Следующая</a>';
 		$pagination .= '<a href="' . $current_url . $search . 'page=' . $count_pages . '" class="pagination_itm pagination_itm_link">В конец</a>';
 	};
 
@@ -218,32 +219,33 @@ function wp_corenavi( $count_posts = 1, $first_page_count = 1, $all_pages_count 
 	В общем случае вызывается так:
 	wp_corenavi_good($wp_query->found_posts);
 */
-function wp_corenavi_good( $count_posts = 1, $first_page_count = 0, $all_pages_count = 0 ) {
+function wp_corenavi_good($count_posts = 1, $first_page_count = 0, $all_pages_count = 0)
+{
 	// если параметры не заданы явно, то возьмем их из базы
-	if ( $first_page_count == 0 ) {
-		$first_page_count = get_option( 'posts_per_page' );
+	if ($first_page_count == 0) {
+		$first_page_count = get_option('posts_per_page');
 	};
 
-	if ( $all_pages_count == 0 ) {
-		$all_pages_count = get_option( 'posts_per_page' );
+	if ($all_pages_count == 0) {
+		$all_pages_count = get_option('posts_per_page');
 	};
 	
 
 	// текущая страница
 	$current = 1;
-	if ( get_query_var( 'paged' ) ) {
-		$current = (int) get_query_var( 'paged' );
+	if (get_query_var('paged')) {
+		$current = (int)get_query_var('paged');
 	};
 
 	// Для страницы поиска
-	if ( isset( $_GET['s'] ) ) {
+	if (isset($_GET['s'])) {
 		$search = '?s=' . $_GET['s'] . '&';
 	} else {
 		$search = '';
 	};
 
 	
-	if ( $current < 1 ) {
+	if ($current < 1) {
 		$current = 1;
 	}
 	$pagination = '<div class="pagination_main">';
@@ -252,13 +254,13 @@ function wp_corenavi_good( $count_posts = 1, $first_page_count = 0, $all_pages_c
 	// Общее количество страниц
 	$count_pages = 1;
 	
-	if ( $count_posts > $first_page_count ) {
+	if ($count_posts > $first_page_count) {
 		$count_posts = $count_posts - $first_page_count;
-		$count_pages = ceil( $count_posts / $all_pages_count ) + 1;
+		$count_pages = ceil($count_posts / $all_pages_count) + 1;
 	};
 
 	// Вывод пагинации если страцниа всего одна
-	if ( $count_pages == 1 ) {
+	if ($count_pages == 1) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В начало</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Предыдущая</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">1</span>';
@@ -271,54 +273,54 @@ function wp_corenavi_good( $count_posts = 1, $first_page_count = 0, $all_pages_c
 	};
 
 	// обработка начальный ссылок
-	if ( $current == 1 ) {
+	if ($current == 1) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В начало</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Предыдущая</span>';
 	} else {
-		$pagination .= '<a href="' . get_pagenum_link( 1 ) . $search . '" class="pagination_itm pagination_itm_link">В начало</a>';
-		$pagination .= '<a href="' . get_pagenum_link( $current - 1 ) . $search . '" class="pagination_itm pagination_itm_link">Предыдущая</a>';
+		$pagination .= '<a href="' . get_pagenum_link(1) . $search . '" class="pagination_itm pagination_itm_link">В начало</a>';
+		$pagination .= '<a href="' . get_pagenum_link($current - 1) . $search . '" class="pagination_itm pagination_itm_link">Предыдущая</a>';
 	};
 
 	// Если меньше 7 страниц, то все ссылки влезут явно, иначе нужно сокращение (многоточие)
-	if ( $count_pages <= 7 ) {
-		for ( $i = 1; $i <= $count_pages; $i++ ) {
-			if ( $current == $i ) {
+	if ($count_pages <= 7) {
+		for ($i = 1; $i <= $count_pages; $i++) {
+			if ($current == $i) {
 				$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 			} else {
-				$pagination .= '<a href="' . get_pagenum_link( $i ) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
+				$pagination .= '<a href="' . get_pagenum_link($i) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
 			};
 		};
 	} else {
-		if ( $current <= 4 ) {
-			for ( $i = 1; $i <= 6; $i++ ) {
-				if ( $current == $i ) {
+		if ($current <= 4) {
+			for ($i = 1; $i <= 6; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
-					$pagination .= '<a href="' . get_pagenum_link( $i ) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
+					$pagination .= '<a href="' . get_pagenum_link($i) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
 				};
 			};
 
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-		} elseif ( $current >= $count_pages - 3 ) {
+		} elseif ($current >= $count_pages - 3) {
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-			for ( $i = $count_pages - 6; $i <= $count_pages; $i++ ) {
-				if ( $current == $i ) {
+			for ($i = $count_pages - 6; $i <= $count_pages; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
-					$pagination .= '<a href="' . get_pagenum_link( $i ) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
+					$pagination .= '<a href="' . get_pagenum_link($i) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
 				};
 			};
 
 		} else {
 			$pagination .= '<span class="pagination_itm">...</span>';
 
-			for ( $i = $current - 2; $i <= $current + 2; $i++ ) {
-				if ( $current == $i ) {
+			for ($i = $current - 2; $i <= $current + 2; $i++) {
+				if ($current == $i) {
 					$pagination .= '<span class="pagination_itm pagination_itm_activ">' . $i . '</span>';
 				} else {
-					$pagination .= '<a href="' . get_pagenum_link( $i ) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
+					$pagination .= '<a href="' . get_pagenum_link($i) . $search . '" class="pagination_itm pagination_itm_link">' . $i . '</a>';
 				};
 			};
 			$pagination .= '<span class="pagination_itm">...</span>';
@@ -328,12 +330,12 @@ function wp_corenavi_good( $count_posts = 1, $first_page_count = 0, $all_pages_c
 	
 
 	// обработка конечных ссылок
-	if ( $current == $count_pages ) {
+	if ($current == $count_pages) {
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">Следующая</span>';
 		$pagination .= '<span class="pagination_itm pagination_itm_activ">В конец</span>';
 	} else {
-		$pagination .= '<a href="' . get_pagenum_link( $current + 1 ) . $search . '" class="pagination_itm pagination_itm_link">Следующая</a>';
-		$pagination .= '<a href="' . get_pagenum_link( $count_pages ) . $search . '" class="pagination_itm pagination_itm_link">В конец</a>';
+		$pagination .= '<a href="' . get_pagenum_link($current + 1) . $search . '" class="pagination_itm pagination_itm_link">Следующая</a>';
+		$pagination .= '<a href="' . get_pagenum_link($count_pages) . $search . '" class="pagination_itm pagination_itm_link">В конец</a>';
 	};
 
 	$pagination .= '</div>';

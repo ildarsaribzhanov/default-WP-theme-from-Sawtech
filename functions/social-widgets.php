@@ -11,7 +11,8 @@
 /****************************************************************************/
 /****************************** Виджет контакта *****************************/
 /****************************************************************************/
-function get_widget_vk( $id_block ) {
+function get_widget_vk($id_block)
+{
 	$res = '
 	<!-- VK Widget -->
 	<div class="soc_widget" id="' . $id_block . '"></div>
@@ -23,12 +24,11 @@ function get_widget_vk( $id_block ) {
 }
 
 
-
-
 /****************************************************************************/
 /****************************** Виджет facebook *****************************/
 /****************************************************************************/
-function get_widget_fb() {
+function get_widget_fb()
+{
 
 	$res = '<div class="soc_widget fb-like-box" data-href="https://www.facebook.com/cluboblako" data-width="240" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>';
 
@@ -36,14 +36,14 @@ function get_widget_fb() {
 }
 
 
-
 /****************************************************************************/
 /****************************** Виджет подписки *****************************/
 /****************************************************************************/
-function get_widget_subscribe() {
-	$mytheme = get_option( 'themadmin' );
+function get_widget_subscribe()
+{
+	$mytheme = get_option('themadmin');
 	$res     = '<div class="b_subscribe">
-				<p class="subscribe_title">' . $mytheme['sbcr_widg_title'] . '<br /><img src="' . get_bloginfo( 'template_url' ) . '/images/logo_225.png" alt=""></p>
+				<p class="subscribe_title">' . $mytheme['sbcr_widg_title'] . '<br /><img src="' . get_bloginfo('template_url') . '/images/logo_225.png" alt=""></p>
 				<div class="subscribe_dsc">' . $mytheme['sbcr_widg_txt'] . '</div>
 				<div class="subscribe_dsc_err"></div>
 				<div class="subscribe_dsc_good"></div>
@@ -55,4 +55,5 @@ function get_widget_subscribe() {
 
 	return $res;
 }
+
 ?>
