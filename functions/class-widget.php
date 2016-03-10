@@ -23,9 +23,9 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 		extract($args);
 		$title = apply_filters('widget_title', $instance['title']);
 
-		echo $before_widget;
+		echo $args['before_widget'];
 		if ( ! empty($title)) {
-			echo $before_title . $title . $after_title;
+			echo $args['before_title'] . $title . $args['after_title'];
 		}
 
 		$args = array(
@@ -37,7 +37,7 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 
 		$get_posts = get_posts($args);
 
-		foreach ($postsspa as $itm) {
+		foreach ($get_posts as $itm) {
 			?>
 			<div>
 				<h3><a href="<?php echo get_permalink($itm->ID) ?>"><?php echo get_the_title($itm->ID); ?></a></h3>
@@ -45,7 +45,7 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 			</div>
 			<?php
 		}
-		echo $after_widget;
+		echo $args['after_widget'];
 	}
 	
 
