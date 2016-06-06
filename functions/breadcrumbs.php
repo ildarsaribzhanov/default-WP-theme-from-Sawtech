@@ -24,6 +24,7 @@ function kama_breadcrumbs($sep = ' » ')
 	$patt1    = '<span typeof="v:Breadcrumb"><a href="%s" rel="v:url" property="v:title">';
 	$sep .= '</span>'; // закрываем span после разделителя!
 	$patt = $patt1 . '%s</a>';
+	$home_after = '';
 
 	if ($paged = $wp_query->query_vars['paged']) {
 		$pg_patt = $patt1;
