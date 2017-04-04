@@ -151,4 +151,30 @@ class ControlPanel
 
 $cpanel  = new ControlPanel();
 $mytheme = get_option('themadmin');
-?>
+
+
+/**
+ * Верия файла, чтобы не сильно кэшировалось
+ *
+ * @param string $file путь от папки темв
+ * @param string $type типа файла [css/js]
+ *
+ * @return string
+ */
+function version_file($file = '', $type = 'css')
+{
+	$ver  = 'ver=' . date('d.m.Y.H.i', filemtime(TEMPLATEPATH . $file));
+	$file = get_template_directory_uri() . $file . '?' . $ver;
+	
+	switch ($type) {
+		case 'css':
+			$res = '<link rel="stylesheet" type="text/css" href="' . $file . '" />';
+			break;
+		
+		case 'js':
+			$res = '<script type="text/javascript" src="' . $file . '"></script>';
+			break;
+	}
+	
+	return $res;
+}

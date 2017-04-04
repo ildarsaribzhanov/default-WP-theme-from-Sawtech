@@ -23,7 +23,8 @@
 	<link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 
 	<script type="text/javascript" src="<?php bloginfo('template_url'); ?>/js/jquery.tools.min.js"></script>
-	<link type="text/css" href="<?php bloginfo('template_url'); ?>/style.css" rel="stylesheet" />
+	
+	<?php echo version_file('/style.css', 'css'); ?>
 
 
 	<!-- Лайки -->
