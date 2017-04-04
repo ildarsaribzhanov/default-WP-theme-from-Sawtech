@@ -9,4 +9,3 @@ include('functions/pagination.php');        // paginatind functions
 include('functions/social-widgets.php');    // social widgets fd/vk/subscribe
 include('functions/users-funcs.php');       // users reg/login/update/redirect
 include('functions/views_counter.php');     // functions for views counter
-?>

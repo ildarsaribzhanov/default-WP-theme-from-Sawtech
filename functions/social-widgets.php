@@ -19,7 +19,7 @@ function get_widget_vk($id_block)
 	<script type="text/javascript">
 	VK.Widgets.Group("' . $id_block . '", {mode: 0, width: "240", height: "400", color1: \'FFFFFF\', color2: \'2B587A\', color3: \'5B7FA6\'}, 71613785);
 	</script>';
-
+	
 	return $res;
 }
 
@@ -29,9 +29,9 @@ function get_widget_vk($id_block)
 /****************************************************************************/
 function get_widget_fb()
 {
-
+	
 	$res = '<div class="soc_widget fb-like-box" data-href="https://www.facebook.com/cluboblako" data-width="240" data-colorscheme="light" data-show-faces="true" data-header="false" data-stream="false" data-show-border="false"></div>';
-
+	
 	return $res;
 }
 
@@ -52,8 +52,6 @@ function get_widget_subscribe()
 					<input type="submit" class="subscribe_btn" value="Подписаться" />
 				</form>
 			</div>';
-
+	
 	return $res;
 }
-
-?>

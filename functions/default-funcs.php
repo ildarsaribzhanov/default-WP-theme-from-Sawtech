@@ -37,7 +37,7 @@ add_filter('upload_mimes', 'my_upload_mimes');
 function my_upload_mimes($mimes)
 {
 	$mimes['swf'] = 'application/x-shockwave-flash';
-
+	
 	return $mimes;
 }
 
@@ -59,7 +59,7 @@ function yuotube_revers($url_video)
 		$url_video, $match);
 	$Youtube_video['img'] = 'http://img.youtube.com/vi/' . $match[1] . '/0.jpg';
 	$Youtube_video['id']  = $match[1];
-
+	
 	return $Youtube_video;
 }
 
@@ -70,7 +70,7 @@ function yuotube_revers($url_video)
 
 class ControlPanel
 {
-
+	
 	var $default_settings = Array(
 		'sendemail'       => 'ildar@sawtech.ru',
 		'sbcr_widg_title' => 'Подписка<br />на новости',
@@ -78,9 +78,9 @@ class ControlPanel
 		'sbcr_foot_title' => 'Подпишитесь<br />на новости',
 		'sbcr_foot_txt'   => 'И вы будете получать сразу на почту самую полезную и актуальную информацию от ОБЛАКО'
 	);
-
+	
 	var $options;
-
+	
 	function ControlPanel()
 	{
 		add_action('admin_menu', array(&$this, 'add_menu'));
@@ -89,7 +89,7 @@ class ControlPanel
 		}
 		$this->options = get_option('themadmin');
 	}
-
+	
 	function add_menu()
 	{
 		add_theme_page('WP Theme Options', 'Настройки темы', 'edit_files', "themadmin", array(
@@ -97,25 +97,25 @@ class ControlPanel
 			'optionsmenu'
 		));
 	}
-
+	
 	function optionsmenu()
 	{
 		if (isset($_POST['ss_action']) && $_POST['ss_action'] == 'save') {
-
+			
 			$this->options["sendemail"]       = $_POST['cp_sendemail'];
 			$this->options["sbcr_widg_title"] = $_POST['cp_sbcr_widg_title'];
 			$this->options["sbcr_widg_txt"]   = $_POST['cp_sbcr_widg_txt'];
 			$this->options["sbcr_foot_title"] = $_POST['cp_sbcr_foot_title'];
 			$this->options["sbcr_foot_txt"]   = $_POST['cp_sbcr_foot_txt'];
-
+			
 			update_option('themadmin', $this->options);
-
+			
 			echo '<div class="updated fade" id="message" style="background-color: rgb(255, 251, 204); width: 400px; margin-left: 17px; margin-top: 17px;"><p>Ваши изменения <strong>сохранены</strong>.</p></div>';
 		}
 		echo '<h1>Настройки темы</h1>';
 		echo '<form action="" method="post" class="themeform">';
 		echo '<input type="hidden" id="ss_action" name="ss_action" value="save">';
-
+		
 		echo '
 			<div class="cptab">
 				
@@ -143,7 +143,7 @@ class ControlPanel
  
 			</div>
 			';
-
+		
 		echo '<input type="submit" value="Сохранить" name="cp_save" class="dochanges" />';
 		echo '</form>';
 	}

@@ -16,9 +16,9 @@ function generate_csv()
 	foreach ($userlist as $userone) {
 		$filecontent .= $userone->display_name;                    // имя
 		$filecontent .= '#' . $userone->user_email;                // email
-		$phone = get_user_meta($userone->ID, 'phone', 1);        // телефон
+		$phone       = get_user_meta($userone->ID, 'phone', 1);        // телефон
 		$filecontent .= '#' . $phone;
-		$company = get_user_meta($userone->ID, 'company', 1);    // СМИ
+		$company     = get_user_meta($userone->ID, 'company', 1);    // СМИ
 		$filecontent .= '#' . $company;
 		$filecontent .= "\n";
 	};
@@ -32,5 +32,3 @@ function generate_csv()
 	}
 	fclose($fp);
 }
-
-?>

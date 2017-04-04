@@ -25,11 +25,11 @@ function mytheme_comment($comment, $args, $depth)
 				<div class="comment_itm_photo">
 					<?php echo get_avatar($comment, 55); ?>
 				</div>
-
+				
 				<div class="comment_itm_txt" id="commenttext-<?php comment_ID(); ?>">
 					<?php comment_text(); ?>
 				</div>
-
+				
 				<div class="comment_itm_attr">
 					<span class="comment_itm_author"><?php comment_author(); ?></span> |
 					<span class="comment_itm_date"><?php comment_date('d M Y') ?></span>
@@ -58,7 +58,7 @@ function mytheme_comment($comment, $args, $depth)
 function get_count_approve_comment($id = 0)
 {
 	$comments_counter = wp_count_comments($id);
-
+	
 	return $comments_counter->approved;
 }
 
@@ -72,7 +72,7 @@ function get_last_comments($count = 5)
 		'number' => $count,
 		'status' => 'approve',
 	);
-
+	
 	return get_comments($args);
 }
 
@@ -86,4 +86,3 @@ function remove_onclick_moveForm($link)
 }
 
 add_filter('comment_reply_link', 'remove_onclick_moveForm');
-?>

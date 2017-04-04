@@ -15,7 +15,7 @@ function count_view_update($id = false)
 			global $post;
 			$id = $post->ID;
 		};
-
+		
 		$count_view = get_post_meta($id, 'count_view', 1);
 		if ($count_view) {
 			$count_view++;
@@ -24,7 +24,7 @@ function count_view_update($id = false)
 		};
 		update_post_meta($id, 'count_view', $count_view);
 	};
-
+	
 	return;
 }
 
@@ -42,8 +42,6 @@ function get_count_view($id = false)
 		$id = $post->ID;
 	};
 	$count_view = get_post_meta($id, 'count_view', 1);
-
+	
 	return (int)$count_view;
 }
-
-?>

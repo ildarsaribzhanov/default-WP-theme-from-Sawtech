@@ -7,7 +7,7 @@ My_New_Best_Wordpress_widget - Название класса виджета, м�
 
 class My_New_Best_Wordpress_widget extends WP_Widget
 {
-
+	
 	// Конструктор виджета
 	public function __construct()
 	{
@@ -15,26 +15,26 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 			array('description' => 'Этот виджет отображает последних зарегистрированных пользователей'));
 	}
 	
-
+	
 	// Это то как будет выводиться виджет на сайте
 	public function widget($args, $instance)
 	{
 		$title = apply_filters('widget_title', $instance['title']);
-
+		
 		echo $args['before_widget'];
 		if ( ! empty($title)) {
 			echo $args['before_title'] . $title . $args['after_title'];
 		}
-
+		
 		$args = array(
 			'post_type' => 'post',
 			'orderby'   => 'rand',
 			'order'     => 'desc',
 			'number'    => $instance['count_posts']
 		);
-
+		
 		$get_posts = get_posts($args);
-
+		
 		foreach ($get_posts as $itm) {
 			?>
 			<div>
@@ -46,17 +46,17 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 		echo $args['after_widget'];
 	}
 	
-
+	
 	// Функция обновления настроек виджета. Когда в админке кликаем "Сохранить"
 	public function update($new_instance, $old_instance)
 	{
 		$instance                = array();
 		$instance['title']       = strip_tags($new_instance['title']);
 		$instance['count_posts'] = strip_tags($new_instance['count_posts']);
-
+		
 		return $instance;
 	}
-
+	
 	// Форма настройки виджета
 	public function form($instance)
 	{
@@ -81,5 +81,3 @@ class My_New_Best_Wordpress_widget extends WP_Widget
 }
 
 add_action('widgets_init', create_function('', 'register_widget( "My_New_Best_Wordpress_widget" );'));
-
-?>

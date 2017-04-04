@@ -35,7 +35,7 @@ function create_post_type()
 		'not_found_in_trash' => __('Среди удаленных нет искомого'),
 		'parent_item_colon'  => ''
 	);
-
+	
 	$support = array(
 		'title',
 		'editor',
@@ -49,15 +49,15 @@ function create_post_type()
 		'page-attributes',
 		'post-formats'
 	);
-
+	
 	register_post_type('new_post_type', array(
-			'show_in_menu' => true, //где отображать
-			'labels'       => $labels,
-			'public'       => true,
-			'supports'     => $support,
-			'menu_icon'    => 'dashicons-tablet'
-		));
-
+		'show_in_menu' => true, //где отображать
+		'labels'       => $labels,
+		'public'       => true,
+		'supports'     => $support,
+		'menu_icon'    => 'dashicons-tablet'
+	));
+	
 	// Заголовки таксономии
 	$labels = array(
 		'name'              => __('Название'),
@@ -71,7 +71,7 @@ function create_post_type()
 		'add_new_item'      => __('Добавить новый'),
 		'new_item_name'     => __('Имя нового типа'),
 	);
-
+	
 	register_taxonomy('name_new_tax', 'new_post_type', array(
 		'hierarchical' => true,
 		'labels'       => $labels,
@@ -95,7 +95,7 @@ function my_insert_rewrite_rules($rules)
 		'new_post_type_else/([^/]+/?)$'                 => 'index.php?new_post_type=$matches[1]',
 		'new_post_type_else/(.+?)/page/?([0-9]{1,})/?$' => 'index.php?new_post_type=$matches[1]&paged=$matches[2]'
 	);
-
+	
 	return $newrules + $rules;
 }
 
@@ -117,19 +117,19 @@ function new_columns_partners($standart)
 		'meta_field' => 'Метаполе',
 		'date'       => 'Дата'
 	);
-
+	
 	return $standart;
 }
 
 // Добавление контента для новых полей
 function add_content_new_col($column, $post_id)
 {
-
+	
 	switch ($column) {
-
+		
 		case 'razdel' :
 			$this_terms = get_the_terms($post_id, 'name_new_tax');
-
+			
 			$res = '';
 			if ($this_terms) {
 				foreach ($this_terms as $itm_term) {
@@ -138,16 +138,16 @@ function add_content_new_col($column, $post_id)
 			} else {
 				$res = 'Не определен ';
 			}
-
+			
 			$res = substr($res, 0, -1);
-
+			
 			echo $res;
 			
 			break;
-
+		
 		case 'meta_field' :
 			$this_meta = get_post_meta($post_id, 'meta_field', 1);
-
+			
 			if ( ! $this_meta) {
 				$this_meta = 'Не задано';
 			}
@@ -166,7 +166,7 @@ function add_views_sortable_column($sortable_columns)
 {
 	$sortable_columns['razdel']     = 'razdel';
 	$sortable_columns['meta_field'] = 'meta_field';
-
+	
 	return $sortable_columns;
 }
 
@@ -181,7 +181,7 @@ function add_column_views_request($vars)
 		$vars['meta_key'] = 'meta_field';
 		$vars['orderby']  = 'meta_value_num';
 	}
-
+	
 	return $vars;
 }
 
@@ -191,26 +191,26 @@ function add_column_views_request($vars)
 /****************************************************************************/
 function orderby_newtax($vars, $wp_query)
 {
-
+	
 	global $wpdb;
-
+	
 	if (isset($wp_query->query['orderby']) && $wp_query->query['orderby'] == 'name_new_tax') {
-
+		
 		$t_posts = $wpdb->prefix . 'posts';
 		$t_rel   = $wpdb->prefix . 'term_relationships';
 		$t_tax   = $wpdb->prefix . 'term_taxonomy';
 		$t_term  = $wpdb->prefix . 'terms';
-
+		
 		$vars['join'] .= " LEFT JOIN $t_rel ON ($t_posts.ID = $t_rel.object_id) ";
 		$vars['join'] .= " LEFT JOIN $t_tax ON ($t_rel.term_taxonomy_id = $t_tax.term_taxonomy_id) ";
 		$vars['join'] .= " LEFT JOIN $t_term ON ($t_tax.term_id = $t_term.term_id) ";
-
+		
 		$vars['groupby'] .= " $t_posts.ID ";
-
+		
 		$vars['orderby'] = " $t_term.name ";
 		$vars['orderby'] .= ('ASC' == strtoupper($wp_query->get('order'))) ? 'ASC' : 'DESC';
 	}
-
+	
 	return $vars;
 }
 
@@ -262,7 +262,7 @@ function get_excerpt_post($ID, $limit)
 	if ($this_post->post_excerpt != '') {
 		return $this_post->post_excerpt;
 	};
-
+	
 	return get_excerpt_text($this_post->post_content, $limit);
 }
 
@@ -271,7 +271,7 @@ function get_excerpt_post($ID, $limit)
 function get_excerpt_text($txt, $limit = 20)
 {
 	$txt = explode(' ', $txt, $limit);
-
+	
 	if (count($txt) >= $limit) {
 		array_pop($txt);
 		$txt = implode(" ", $txt) . '...';
@@ -279,7 +279,7 @@ function get_excerpt_text($txt, $limit = 20)
 		$txt = implode(" ", $txt);
 	}
 	$txt = strip_tags($txt);
-
+	
 	return $txt;
 }
 
@@ -317,8 +317,6 @@ function get_post_cat_array($ID = 0)
 	foreach ($cats as $itm) {
 		array_push($res, $itm->term_id);
 	};
-
+	
 	return $res;
 }
-
-?>
