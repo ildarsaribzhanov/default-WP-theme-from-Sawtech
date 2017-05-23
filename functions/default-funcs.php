@@ -7,6 +7,7 @@
 	* Установка ширины контент
 	* Получение id видео из ссылки youtube
 	* Страница настройки темы
+ 	* Версия файла, чтобы не сильно кэшировалось
 */
 /****************************************************************************/
 
@@ -18,10 +19,12 @@ if (function_exists('add_theme_support')) {
 // блоки виждетов
 if (function_exists('register_sidebar')) {
 	register_sidebar(array(
-		'name' => 'mailchimp'
+		'name' => 'mailchimp',
+		'id'   => 'mailchimp',
 	));
 	register_sidebar(array(
-		'name' => 'tweet'
+		'name' => 'tweet',
+		'id'   => 'tweet',
 	));
 }
 
@@ -81,7 +84,7 @@ class ControlPanel
 	
 	var $options;
 	
-	function ControlPanel()
+	function __construct()
 	{
 		add_action('admin_menu', array(&$this, 'add_menu'));
 		if ( ! is_array(get_option('themadmin'))) {
@@ -154,7 +157,7 @@ $mytheme = get_option('themadmin');
 
 
 /**
- * Верия файла, чтобы не сильно кэшировалось
+ * Версия файла, чтобы не сильно кэшировалось
  *
  * @param string $file путь от папки темв
  * @param string $type типа файла [css/js]
